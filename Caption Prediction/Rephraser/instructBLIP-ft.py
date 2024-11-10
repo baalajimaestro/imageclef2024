@@ -42,7 +42,7 @@ class InstructBLIP:
         self.parse_agrs()
 
         n_gpu = self.parser.parse_args().n_gpu
-        self.device = "cuda:3"
+        self.device = "cuda"
 
     def parse_agrs(self) -> None:
         """ Parse all arguments selected in execution from the user
@@ -83,7 +83,7 @@ class InstructBLIP:
                 "Warning: The number of GPU\'s configured to use is {}, but only {} are available " "on this machine.".format(
                     n_gpu_use, n_gpu))
             n_gpu_use = n_gpu
-        device = torch.device('cuda:7' if n_gpu_use > 0 else 'cpu')
+        device = torch.device('cuda' if n_gpu_use > 0 else 'cpu')
         list_ids = list(range(n_gpu_use))
         return device, list_ids
 
