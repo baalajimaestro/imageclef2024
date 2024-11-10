@@ -42,7 +42,7 @@ class InstructBLIP:
         self.parse_agrs()
 
         n_gpu = self.parser.parse_args().n_gpu
-        self.device = "cuda:3"
+        self.device = "cuda"
 
     def parse_agrs(self) -> None:
         """ Parse all arguments selected in execution from the user
@@ -83,7 +83,7 @@ class InstructBLIP:
                 "Warning: The number of GPU\'s configured to use is {}, but only {} are available " "on this machine.".format(
                     n_gpu_use, n_gpu))
             n_gpu_use = n_gpu
-        device = torch.device('cuda:7' if n_gpu_use > 0 else 'cpu')
+        device = torch.device('cuda' if n_gpu_use > 0 else 'cpu')
         list_ids = list(range(n_gpu_use))
         return device, list_ids
 
@@ -117,12 +117,12 @@ class InstructBLIP:
 
         concept_mapper_path = self.parser.parse_args().dataset_concepts_mapper
 
-        concepts_mapper = pd.read_csv(concept_mapper_path, sep="\t", header=None, names=['cui', 'concept'])
+        concepts_mapper = pd.read_csv(concept_mapper_path, header=None, names=['cui', 'Canonical name'])
 
         # Build a mapper
         self._concepts_dict = {}
-        for row in concepts_mapper['concept']:
-            mapper = concepts_mapper.loc[concepts_mapper['concept'] == row].values.flatten().tolist()
+        for row in concepts_mapper['Canonical name']:
+            mapper = concepts_mapper.loc[concepts_mapper['Canonical name'] == row].values.flatten().tolist()
             self._concepts_dict[mapper[0]] = mapper[1]
         
         return captions_train, captions_valid, captions_test
