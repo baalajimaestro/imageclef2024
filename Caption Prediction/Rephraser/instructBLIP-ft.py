@@ -117,12 +117,12 @@ class InstructBLIP:
 
         concept_mapper_path = self.parser.parse_args().dataset_concepts_mapper
 
-        concepts_mapper = pd.read_csv(concept_mapper_path, sep="\t", header=None, names=['cui', 'concept'])
+        concepts_mapper = pd.read_csv(concept_mapper_path, header=None, names=['cui', 'Canonical name'])
 
         # Build a mapper
         self._concepts_dict = {}
-        for row in concepts_mapper['concept']:
-            mapper = concepts_mapper.loc[concepts_mapper['concept'] == row].values.flatten().tolist()
+        for row in concepts_mapper['Canonical name']:
+            mapper = concepts_mapper.loc[concepts_mapper['Canonical name'] == row].values.flatten().tolist()
             self._concepts_dict[mapper[0]] = mapper[1]
         
         return captions_train, captions_valid, captions_test
